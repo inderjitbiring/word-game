@@ -1,0 +1,183 @@
+<html>
+<head>
+	
+<link rel="stylesheet" type="text/css" href="wordgame.css">
+	
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<title>Word Game</title>
+	
+</head>
+	
+	
+	
+
+
+<body>
+	
+  <header >
+    <h1>Beat The Clock</h1>
+  </header>
+
+    <!-- Word & Input -->
+    
+	<p>Type The Given Word Within
+          <span id="seconds">4</span> Seconds:</p>
+	
+        <h2 id="current-word">  </h2>
+	
+        <input type="text" placeholder="Start typing..." id="word-input" autofocus>
+	
+        <h2 id="message"> </h2>
+
+        <!-- Time & Score Columns -->
+        
+            <h3>Time Left:
+              <span id="time">0</span>
+            </h3>
+          
+         
+            <h3>Score:
+              <span id="score">0</span>
+            </h3>
+     
+	  <!-- Instructions  -->
+        
+  <div class="instructions">   
+  <h5>Instructions</h5>
+  <p>Type each word in the given amount of seconds to score a point. To restart game, just type the current word. Your score will reset</p>
+</div>      
+     
+	
+	
+
+ <script>
+	  
+window.addEventListener('load', startGame);
+
+// Globals
+
+
+let time = 5;
+let score = 0;
+let isPlaying;
+
+// DOM Elements
+const wordInput = document.querySelector('#word-input');
+const currentWord = document.querySelector('#current-word');
+const scoreDisplay = document.querySelector('#score');
+const timeDisplay = document.querySelector('#time');
+const message = document.querySelector('#message');
+const seconds = document.querySelector('#seconds');
+
+const words = [
+  'programming',
+  'responsive',
+  'instantiate',
+  'cascading',
+  'generate',
+  'database',
+  'algorithms',
+  'typography',
+  'horizontal',
+  'developer',
+  'angular',
+  'coding',
+  'javascript',
+  'variables',
+  'revolver',
+  'functions',
+  'elements',
+  'investigate',
+  'operator',
+  'bootstrap',
+  'boolean',
+  'notation',
+  'parameters',
+  'flexbox',
+  'definition',
+  'destructuring'
+];
+
+function startGame ()  {          
+
+  loadWords(words);	
+
+wordInput.addEventListener('input', matchStart);
+  
+ setInterval(countDown, 1000);
+  
+ setInterval(status, 50);
+}
+
+
+
+// Start match
+
+function matchStart() {         
+  if (matchedItems()) {
+    isPlaying = true;
+    time = 5 ;
+    loadWords(words);
+    wordInput.value = '';
+    score++;
+  }
+  
+  if (score === -1) {
+   scoreDisplay.innerHTML = 0;
+  } 
+  else {
+ scoreDisplay.innerHTML = score;
+  }
+}
+
+// Match currentWord to wordInput
+
+function matchedItems ()  {         
+  if (wordInput.value === currentWord.innerHTML) {
+    message.innerHTML = 'Correct well done !!!';
+    return true;
+  } else {
+    message.innerHTML = '';
+    return false;
+  }
+}
+
+
+
+// Countdown timer
+
+function countDown ()  {    
+  if (time > 0) {
+  time--;
+  } else if (time === 0) {
+  isPlaying = false;
+  }
+ timeDisplay.innerHTML = time;
+}
+
+// Check game status
+
+ function status ()  {       
+  if (!isPlaying && time === 0) {
+    message.innerHTML = 'Time is Up !!!';
+ score = -1;
+  }
+}
+
+
+// Pick & show random word
+
+function loadWords(words) {
+ const randomWord = Math.floor(Math.random() * words.length);
+  
+ currentWord.innerHTML = words[randomWord];
+}
+
+	  
+ </script>
+	
+</body>	
+</html>  
+
+
+
